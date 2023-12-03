@@ -1,0 +1,77 @@
+// Declaración de variables iniciales
+var saldo: Float = 0.0
+var primeraVezRetiro = true
+var continuar = true 
+
+// Función para realizar un depósito
+func deposito() {
+    print("Ingrese la cantidad a depositar:")
+    if let cantidad = Float(readLine() ?? "0") { 
+        saldo += cantidad // Incrementa el saldo con la cantidad ingresada
+        print("Depósito exitoso. Saldo actual: \(saldo)")
+    } else {
+        print("Cantidad no válida.")
+    }
+}
+
+// Función para realizar un retiro
+func retiro() {
+    if primeraVezRetiro {
+        print("Lo sentimos, no cuenta con saldo para realizar un retiro.")
+        primeraVezRetiro = false // Marca que ya se intentó realizar un retiro
+    } else {
+        print("Ingrese la cantidad a retirar:")
+        if let cantidad = Float(readLine() ?? "0") { 
+            if cantidad <= saldo { 
+                saldo -= cantidad 
+                print("Retiro exitoso. Saldo actual: \(saldo)")
+            } else {
+                print("Saldo insuficiente.")
+            }
+        } else {
+            print("Cantidad no válida.")
+        }
+    }
+}
+
+// Función para consultar el saldo actual
+func consultarSaldo() {
+    print("Su saldo actual es: \(saldo)")
+}
+
+// Bucle while para mostrar el menú y ejecutar las operaciones
+while continuar {
+    print("\nMenú de operaciones:")
+    print("1. Depósito")
+    print("2. Retiro")
+    print("3. Consultar Saldo")
+    print("4. Salir")
+
+    print("Ingrese la opción deseada:")
+    if let opcion = Int(readLine() ?? "0") { // Lee la opción ingresada por el usuario
+        switch opcion {
+        case 1:
+            deposito() // Llama a la función de depósito
+        case 2:
+            retiro() // Llama a la función de retiro
+        case 3:
+            consultarSaldo() // Llama a la función de consulta de saldo
+        case 4:
+            continuar = false // Marca el fin del programa
+            print("Sesión finalizada.")
+        default:
+            print("Opción no válida.")
+        }
+    } else {
+        print("Opción no válida.")
+    }
+
+    if continuar {
+        print("¿Desea realizar otra operación? (S/N)")
+        let respuesta = readLine()?.lowercased() ?? ""
+        if respuesta != "s" && respuesta != "s" { // Verifica si el usuario quiere realizar más operaciones
+            continuar = false 
+            print("Cerrando sesión de cuenta. ¡Vuelva pronto!")
+        }
+    }
+}
